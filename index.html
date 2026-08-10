@@ -128,13 +128,23 @@
     .brand-mark{
       display:grid;
       place-items:center;
-      width:38px;
+      width:auto;
+      min-width:38px;
       height:38px;
+      padding:0 .85rem;
       border-radius:10px;
       background:var(--ink);
       color:var(--accent);
-      font-size:.86rem;
+      font-size:.78rem;
       font-weight:900;
+      letter-spacing:.01em;
+    }
+
+    .brand-by{
+      font-family:"Brush Script MT", "Segoe Script", cursive;
+      font-size:1.1rem;
+      font-weight:400;
+      letter-spacing:0;
     }
 
     .nav-links{
@@ -915,8 +925,8 @@
 <header class="site-header">
   <div class="container nav">
     <a class="brand" href="#home" aria-label="Go to home">
-      <span class="brand-mark">MS</span>
-      <span>Manpreet Singh</span>
+      <span class="brand-mark">The Data Edge</span>
+      <span><span class="brand-by">by</span> Manpreet</span>
     </a>
 
     <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false">☰</button>
