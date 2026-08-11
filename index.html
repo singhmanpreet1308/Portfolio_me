@@ -126,25 +126,51 @@
     }
 
     .brand-mark{
-      display:grid;
-      place-items:center;
+      display:inline-flex;
+      align-items:center;
+      justify-content:flex-start;
       width:auto;
-      min-width:38px;
+      min-width:calc(13ch + 1.7rem);
       height:38px;
       padding:0 .85rem;
       border-radius:10px;
       background:var(--ink);
       color:var(--accent);
-      font-size:.78rem;
+      font-size:.95rem;
       font-weight:900;
       letter-spacing:.01em;
     }
 
-    .brand-by{
-      font-family:"Brush Script MT", "Segoe Script", cursive;
-      font-size:1.1rem;
-      font-weight:400;
-      letter-spacing:0;
+    .brand-mark.is-typing::after{
+      content:"";
+      width:1px;
+      height:1.05em;
+      margin-left:2px;
+      background:currentColor;
+      animation:typewriter-caret .75s steps(1) infinite;
+    }
+
+    @keyframes typewriter-caret{
+      50%{ opacity:0; }
+    }
+
+    .brand-signature{
+      display:inline-flex;
+      align-items:baseline;
+      gap:.22rem;
+      font-family:Georgia, "Times New Roman", serif;
+      font-size:1rem;
+      font-style:italic;
+      font-weight:600;
+      letter-spacing:-.015em;
+    }
+
+    .brand-name{
+      font-family:Didot, "Bodoni MT", "Bodoni 72", "Times New Roman", serif;
+      font-size:1.35rem;
+      font-style:italic;
+      font-weight:700;
+      letter-spacing:-.045em;
     }
 
     .nav-links{
@@ -158,7 +184,7 @@
       display:block;
       padding:.58rem .72rem;
       border-radius:999px;
-      font-size:.83rem;
+      font-size:.95rem;
       font-weight:700;
       color:#46463f;
       transition:.2s ease;
@@ -925,8 +951,8 @@
 <header class="site-header">
   <div class="container nav">
     <a class="brand" href="#home" aria-label="Go to home">
-      <span class="brand-mark">The Data Edge</span>
-      <span><span class="brand-by">by</span> Manpreet</span>
+      <span class="brand-mark" data-typewriter="The Data Edge">The Data Edge</span>
+      <span class="brand-signature">by <span class="brand-name">Manpreet</span></span>
     </a>
 
     <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false">☰</button>
@@ -950,9 +976,9 @@
         <span class="eyebrow">Data & AI Professional</span>
         <h1>Turning Data into <span class="accent">Insights</span>, Intelligent Systems & Business Impact.</h1>
         <p class="hero-subtitle">
-          Machine Learning Engineer with <strong>2+ years of experience</strong> across machine learning,
-          data engineering, analytics, retail, market research and logistics—building systems that convert
-          raw data into practical business decisions.
+          <strong>5+ years across different roles and industries, connected by one constant: data.</strong>
+          I’ve built my career around understanding complex information, finding what matters, and turning it
+          into insights and solutions that create real business value.
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#projects">View Projects ↓</a>
@@ -1305,7 +1331,7 @@
           </div>
 
           <button class="btn btn-primary" type="submit">Send via Email →</button>
-          <p class="form-note">This static portfolio opens your default email app; no server is required.</p>
+          <p class="form-note"></p>
         </form>
       </div>
     </div>
@@ -1323,6 +1349,45 @@
   const menuToggle = document.getElementById("menuToggle");
   const navLinks = document.getElementById("navLinks");
   const navAnchors = [...document.querySelectorAll(".nav-links a")];
+
+  const typewriter = document.querySelector("[data-typewriter]");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (typewriter && !reduceMotion) {
+    const text = typewriter.dataset.typewriter;
+    let character = 0;
+
+    typewriter.textContent = "";
+    typewriter.classList.add("is-typing");
+
+    const typeNextCharacter = () => {
+      typewriter.textContent += text[character];
+      character += 1;
+
+      if (character < text.length) {
+        const typedCharacter = text[character - 1];
+        const naturalPause = typedCharacter === " " ? 120 : 0;
+        const typingDelay = 55 + Math.random() * 85 + naturalPause;
+        window.setTimeout(typeNextCharacter, typingDelay);
+      } else {
+        window.setTimeout(deletePreviousCharacter, 1800);
+      }
+    };
+
+    const deletePreviousCharacter = () => {
+      character -= 1;
+      typewriter.textContent = text.slice(0, character);
+
+      if (character > 0) {
+        const deletingDelay = 35 + Math.random() * 45;
+        window.setTimeout(deletePreviousCharacter, deletingDelay);
+      } else {
+        window.setTimeout(typeNextCharacter, 650);
+      }
+    };
+
+    window.setTimeout(typeNextCharacter, 450);
+  }
 
   menuToggle.addEventListener("click", () => {
     const open = navLinks.classList.toggle("open");
