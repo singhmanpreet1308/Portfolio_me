@@ -590,6 +590,31 @@
       letter-spacing:-.03em;
     }
 
+    .project-card .project-domain{
+      display:flex;
+      align-items:center;
+      gap:.45rem;
+      margin:-2px 0 14px;
+      color:var(--muted);
+      font-size:.76rem;
+      font-weight:750;
+      letter-spacing:.04em;
+    }
+
+    .project-domain-label{
+      color:var(--accent-dark);
+      font-size:.65rem;
+      font-weight:900;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+    }
+
+    .project-domain-label::after{
+      content:"/";
+      margin-left:.45rem;
+      color:var(--line);
+    }
+
     .project-card p{
       color:#55554c;
       margin-bottom:18px;
@@ -673,9 +698,52 @@
       font-weight:750;
     }
 
-    .achievement-grid{
+    .certification-list{
       display:grid;
       grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:20px;
+      margin-top:44px;
+    }
+
+    .certification-card{
+      display:grid;
+      grid-template-columns:1fr;
+      align-content:start;
+      gap:20px;
+      padding:28px;
+      border:1px solid var(--line);
+      border-left:6px solid var(--accent);
+      border-radius:var(--radius);
+      background:var(--surface);
+      box-shadow:var(--shadow);
+    }
+
+    .certification-badge{
+      display:grid;
+      place-items:center;
+      width:78px;
+      height:78px;
+      border-radius:18px;
+      background:var(--ink);
+      color:var(--accent);
+      font-size:1.65rem;
+      font-weight:950;
+      letter-spacing:-.04em;
+    }
+
+    .certification-card h3{
+      margin-bottom:6px;
+      font-size:1.25rem;
+      letter-spacing:-.025em;
+    }
+
+    .certification-card p{
+      color:var(--muted);
+    }
+
+    .achievement-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
       gap:20px;
       margin-top:44px;
     }
@@ -835,6 +903,10 @@
     }
 
     @media (max-width: 980px){
+      .certification-list{
+        grid-template-columns:repeat(2, minmax(0,1fr));
+      }
+
       .nav-links{
         position:absolute;
         top:calc(var(--nav-height) - 4px);
@@ -913,9 +985,15 @@
       .education-grid,
       .projects-grid,
       .skills-layout,
+      .certification-list,
       .achievement-grid,
       .form-row{
         grid-template-columns:1fr;
+      }
+
+      .certification-badge{
+        width:76px;
+        height:76px;
       }
 
       .hero-actions{
@@ -966,6 +1044,7 @@
       <li><a href="#education">Education</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#skills">Skills</a></li>
+      <li><a href="#certifications">Certifications</a></li>
       <li><a href="#achievements">Achievements</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -1044,7 +1123,7 @@
             My experience spans retail analytics, technology market research and logistics operations. I have engineered automated data pipelines using Python, SQL Server and Power BI, built AI-powered reporting workflows, and used statistical analysis to uncover customer and competitive insights.
           </p>
           <p>
-            I hold an MSc in Business Analytics from Queen's University Belfast and a Bachelor of Computer Application from the University of Mysore. I am currently focused on Machine Learning Engineer opportunities where I can help build robust AI systems at scale.
+            I hold an MSc in Business Analytics from Queen's University Belfast and a Bachelor of Computer Applications from the University of Mysore. I am currently exploring data-focused opportunities where I can turn complex data into meaningful insights, intelligent solutions and measurable business value.
           </p>
         </div>
       </div>
@@ -1135,6 +1214,7 @@
             <span class="project-number">01</span>
           </div>
           <h3>MediChat Pro</h3>
+          <p class="project-domain"><span class="project-domain-label">Domain</span> Healthcare</p>
           <p>
             Designed a retrieval-augmented generation medical chatbot to deliver accurate, context-aware responses grounded in medical knowledge sources.
           </p>
@@ -1152,6 +1232,7 @@
             <span class="project-number">02</span>
           </div>
           <h3>Term Deposit Marketing</h3>
+          <p class="project-domain"><span class="project-domain-label">Domain</span> Fintech</p>
           <p>
             Built a predictive machine learning model to identify customers most likely to subscribe to term deposits, supporting more focused marketing decisions.
           </p>
@@ -1169,6 +1250,7 @@
             <span class="project-number">03</span>
           </div>
           <h3>White Starline Regional Sales Report</h3>
+          <p class="project-domain"><span class="project-domain-label">Domain</span> Retail</p>
           <p>
             Analysed 5+ years (2019–2024) of regional consumer electronics sales data to identify profitability trends, seasonal demand patterns, and channel performance insights. Built an end-to-end analytics workflow and interactive Power BI dashboards.
           </p>
@@ -1191,6 +1273,7 @@
             <span class="project-number">04</span>
           </div>
           <h3>Auto-report Generator using MS-AutoGen</h3>
+          <p class="project-domain"><span class="project-domain-label">Domain</span> Retail</p>
           <p>
             Developed an AI-powered reporting system that automates KPI analysis, report generation, and multi-channel delivery through Email, WhatsApp, and Telegram. Built multi-agent workflows using Microsoft AutoGen, LLM embeddings, vector databases, and Python to generate structured business insights and visual summaries.
           </p>
@@ -1263,18 +1346,45 @@
     </div>
   </section>
 
+  <section id="certifications">
+    <div class="container">
+      <span class="eyebrow reveal">Certifications</span>
+      <h2 class="section-title reveal">Industry-recognised credentials.</h2>
+
+      <div class="certification-list">
+        <article class="certification-card reveal">
+          <span class="certification-badge">AWS</span>
+          <div>
+            <h3>Certified Machine Learning Engineer — Associate</h3>
+            <p>AWS certification demonstrating expertise in building, operationalising, deploying and maintaining machine learning solutions.</p>
+          </div>
+        </article>
+
+        <article class="certification-card reveal">
+          <span class="certification-badge">AI</span>
+          <div>
+            <h3>AI Architect Mastery: LLMOps, Cloud &amp; Enterprise GenAI Systems</h3>
+            <p>Advanced certification covering production LLM operations, cloud architecture and enterprise-grade generative AI systems.</p>
+          </div>
+        </article>
+
+        <article class="certification-card reveal">
+          <span class="certification-badge">LSS</span>
+          <div>
+            <h3>Yellow Belt Certified — AIGPE</h3>
+            <p>Lean Six Sigma training in DMAIC and root cause analysis, complementing my data experience with a structured approach to solving problems and improving processes.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <section id="achievements">
     <div class="container">
       <span class="eyebrow reveal">Achievements</span>
       <h2 class="section-title reveal">Evidence of impact.</h2>
 
       <div class="achievement-grid">
-        <article class="achievement reveal">
-          <span class="big">AWS</span>
-          <h3>Certified Machine Learning Engineer — Associate</h3>
-          <p>Professional certification listed in the resume, supporting cloud-based machine learning capability.</p>
-        </article>
-
         <article class="achievement reveal">
           <span class="big">20%</span>
           <h3>Customer Engagement Increase</h3>
@@ -1285,6 +1395,18 @@
           <span class="big">25%</span>
           <h3>Documentation Accuracy Improvement</h3>
           <p>Logistics documentation processes were improved while supporting compliant international trade operations.</p>
+        </article>
+
+        <article class="achievement reveal">
+          <span class="big">60%</span>
+          <h3>Reporting Time Reduction</h3>
+          <p>Automated data and reporting workflows, reducing manual reporting time while enabling faster, more consistent access to business insights.</p>
+        </article>
+
+        <article class="achievement reveal">
+          <span class="big">18%</span>
+          <h3>Inventory Loss Reduction</h3>
+          <p>Improved stock monitoring and reconciliation to reduce inventory mismatches and minimise dead stock, contributing to more accurate and efficient inventory management.</p>
         </article>
       </div>
     </div>
