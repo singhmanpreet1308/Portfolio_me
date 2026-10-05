@@ -229,6 +229,21 @@
       z-index:1;
     }
 
+    .intro-clip{
+      width:min(220px, calc(100% - 40px));
+      margin:0 auto 28px;
+    }
+
+    .intro-clip video{
+      display:block;
+      width:100%;
+      height:220px;
+      object-fit:contain;
+      border-radius:20px;
+      background:var(--surface);
+      box-shadow:var(--shadow);
+    }
+
     .hero h1{
       font-size:clamp(3.4rem, 8vw, 7.4rem);
       line-height:.9;
@@ -1039,6 +1054,12 @@
 </header>
 <main>
   <section class="hero" id="home">
+    <div class="intro-clip">
+      <video id="introVideo" controls muted playsinline preload="auto" aria-label="Manpreet's Bitmoji introduction">
+        <source src="ALL_info/intro.mp4" type="video/mp4" />
+        Your browser does not support embedded video. <a href="ALL_info/intro.mp4">Watch my introduction</a>.
+      </video>
+    </div>
     <div class="container hero-grid">
       <div class="reveal">
         <span class="eyebrow">Data & AI Professional</span>
@@ -1574,6 +1595,43 @@
 
   const typewriter = document.querySelector("[data-typewriter]");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const introVideo = document.getElementById("introVideo");
+  let previousScrollY = window.scrollY;
+  let introAutoplayCancelled = window.scrollY > 0 || document.hidden;
+
+  // Start muted so browsers can allow playback without a user gesture.
+  introVideo.muted = true;
+  if (!introAutoplayCancelled) {
+    introVideo.play().then(() => {
+      if (introAutoplayCancelled) introVideo.pause();
+    }).catch(() => {
+      // Native controls remain available if autoplay is blocked.
+    });
+  }
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > previousScrollY) {
+      introAutoplayCancelled = true;
+      introVideo.pause();
+    }
+    previousScrollY = window.scrollY;
+  }, { passive: true });
+
+  const introObserver = new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting) {
+      introAutoplayCancelled = true;
+      introVideo.pause();
+    }
+  });
+  introObserver.observe(introVideo);
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      introAutoplayCancelled = true;
+      introVideo.pause();
+    }
+  });
 
   if (typewriter && !reduceMotion) {
     const text = typewriter.dataset.typewriter;
