@@ -224,24 +224,55 @@
       display:grid;
       grid-template-columns:1.18fr .82fr;
       gap:56px;
-      align-items:center;
+      align-items:start;
       position:relative;
       z-index:1;
     }
 
     .intro-clip{
-      width:min(220px, calc(100% - 40px));
-      margin:0 auto 28px;
+      width:min(260px, 100%);
+      margin:0 auto 18px;
+      text-align:center;
     }
 
     .intro-clip video{
       display:block;
       width:100%;
-      height:220px;
+      height:190px;
       object-fit:contain;
-      border-radius:20px;
-      background:var(--surface);
-      box-shadow:var(--shadow);
+      mix-blend-mode:multiply;
+      -webkit-mask-image:radial-gradient(ellipse, #000 40%, transparent 72%);
+      mask-image:radial-gradient(ellipse, #000 40%, transparent 72%);
+    }
+
+    .intro-controls{
+      display:flex;
+      justify-content:center;
+      gap:12px;
+    }
+
+    .intro-controls button{
+      border:0;
+      background:transparent;
+      color:var(--muted);
+      padding:8px;
+      min-height:44px;
+      cursor:pointer;
+      font-size:.8rem;
+    }
+
+    .intro-controls button:hover{
+      color:var(--ink);
+    }
+
+    .intro-controls button:focus-visible{
+      outline:2px solid var(--accent-dark);
+      outline-offset:2px;
+      border-radius:6px;
+    }
+
+    .hero-visual{
+      min-width:0;
     }
 
     .hero h1{
@@ -1054,12 +1085,6 @@
 </header>
 <main>
   <section class="hero" id="home">
-    <div class="intro-clip">
-      <video id="introVideo" controls muted playsinline preload="auto" aria-label="Manpreet's Bitmoji introduction">
-        <source src="ALL_info/intro.mp4" type="video/mp4" />
-        Your browser does not support embedded video. <a href="ALL_info/intro.mp4">Watch my introduction</a>.
-      </video>
-    </div>
     <div class="container hero-grid">
       <div class="reveal">
         <span class="eyebrow">Data & AI Professional</span>
@@ -1075,6 +1100,17 @@
         </div>
       </div>
 
+      <div class="hero-visual">
+        <div class="intro-clip">
+          <video id="introVideo" muted playsinline preload="auto" aria-label="Manpreet's Bitmoji introduction">
+            <source src="ALL_info/intro.mp4" type="video/mp4" />
+            Your browser does not support embedded video. <a href="ALL_info/intro.mp4">Watch my introduction</a>.
+          </video>
+          <div class="intro-controls">
+            <button id="introToggle" type="button" aria-controls="introVideo">Play intro</button>
+            <button id="introSound" type="button" aria-controls="introVideo">Unmute</button>
+          </div>
+        </div>
       <aside class="hero-panel reveal" aria-label="Professional highlights">
         <div class="profile-pic-wrap">
           <img class="profile-pic" src="Profile_picture/Manp_Pic_3.jpg" alt="Manpreet Singh — Data & AI Professional" />
@@ -1101,6 +1137,7 @@
           <b>Current direction:</b> production-grade machine learning, AI automation, data pipelines and analytics systems with measurable business value.
         </div>
       </aside>
+      </div>
     </div>
   </section>
 
@@ -1597,6 +1634,26 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const introVideo = document.getElementById("introVideo");
+  const introToggle = document.getElementById("introToggle");
+  const introSound = document.getElementById("introSound");
+  const updateIntroControls = () => {
+    introToggle.textContent = introVideo.ended ? "Replay intro" : introVideo.paused ? "Play intro" : "Pause intro";
+    introSound.textContent = introVideo.muted ? "Unmute" : "Mute";
+  };
+  ["play", "pause", "ended", "volumechange"].forEach(event => {
+    introVideo.addEventListener(event, updateIntroControls);
+  });
+  introToggle.addEventListener("click", () => {
+    if (introVideo.paused) {
+      if (introVideo.ended) introVideo.currentTime = 0;
+      introVideo.play().catch(updateIntroControls);
+    } else {
+      introVideo.pause();
+    }
+  });
+  introSound.addEventListener("click", () => {
+    introVideo.muted = !introVideo.muted;
+  });
   let previousScrollY = window.scrollY;
   let introAutoplayCancelled = window.scrollY > 0 || document.hidden;
 
@@ -1606,7 +1663,7 @@
     introVideo.play().then(() => {
       if (introAutoplayCancelled) introVideo.pause();
     }).catch(() => {
-      // Native controls remain available if autoplay is blocked.
+      // Custom controls remain available if autoplay is blocked.
     });
   }
 
